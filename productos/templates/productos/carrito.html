@@ -1,0 +1,45 @@
+{% extends "productos/encabezado.html" %}
+
+{% block content %}
+<h1 style="text-align:center; margin-bottom:20px;">🛒 Carrito de compras</h1>
+
+{% if carrito %}
+<div style="max-width: 900px; margin: auto; background: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <table style="width:100%; border-collapse: collapse;">
+        <tr style="background:#007bff; color:#fff; text-align:center;">
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for id, item in carrito.items %}
+        <tr style="text-align:center; border-bottom:1px solid #ddd;">
+            <td>{{ item.nombre }}</td>
+            <td>${{ item.precio|floatformat:2 }}</td>
+            <td>
+                <a href="{% url 'actualizar_carrito' id 'restar' %}" style="padding:5px 10px; background:#dc3545; color:white; border-radius:5px; text-decoration:none;">-</a>
+                <span style="margin:0 10px;">{{ item.cantidad }}</span>
+                <a href="{% url 'actualizar_carrito' id 'sumar' %}" style="padding:5px 10px; background:#28a745; color:white; border-radius:5px; text-decoration:none;">+</a>
+            </td>
+            <td>${{ item.subtotal|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3 style="text-align:right; margin-top:20px;">Total: ${{ total|floatformat:2 }}</h3>
+
+    <div style="text-align:right; margin-top:20px;">
+        <a href="{% url 'vaciar_carrito' %}">
+            <button style="padding:10px 20px; background:#ffc107; border:none; border-radius:5px; cursor:pointer;">Vaciar carrito</button>
+        </a>
+        <a href="{% url 'finalizar_compra' %}">
+            <button style="padding:10px 20px; background:#28a745; border:none; border-radius:5px; cursor:pointer; color:white;">
+                Finalizar compra
+            </button>
+        </a>
+    </div>
+</div>
+{% else %}
+<p style="text-align:center; font-size:18px;">No tienes productos en el carrito.</p>
+{% endif %}
+{% endblock %}

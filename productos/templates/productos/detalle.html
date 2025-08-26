@@ -1,0 +1,40 @@
+{% extends "productos/encabezado.html" %}
+
+{% block content %}
+<h1>{{ producto.nombre }}</h1>
+<img src="{{ producto.foto.url }}" width="300">
+<p>{{ producto.descripcion }}</p>
+<p><strong>Precio:</strong> ${{ producto.precio }}</p>
+<p><strong>Stock:</strong> {{ producto.stock }}</p>
+
+<hr>
+<h2>Opiniones</h2>
+
+{% for opinion in opiniones %}
+    <div style="border-bottom:1px solid #ddd; margin-bottom:10px; padding:5px;">
+        <p><strong>{{ opinion.nombre }}</strong> ({{ opinion.fecha|date:"d/m/Y H:i" }})</p>
+        <p>{{ opinion.comentario }}</p>
+    </div>
+{% empty %}
+    <p>No hay opiniones aún. Sé el primero en opinar.</p>
+{% endfor %}
+
+<hr>
+<!-- Botón para abrir el formulario -->
+<button id="btn-opinion" onclick="document.getElementById('formulario-opinion').style.display='block'">
+    Enviar opinión
+</button>
+
+<!-- Formulario oculto -->
+<div id="formulario-opinion" style="display:none; margin-top:20px; border:1px solid #ccc; padding:15px;">
+    <h3>Deja tu opinión</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+        <button type="button" onclick="document.getElementById('formulario-opinion').style.display='none'">
+            Cancelar
+        </button>
+    </form>
+</div>
+{% endblock %}

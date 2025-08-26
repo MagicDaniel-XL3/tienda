@@ -1,0 +1,28 @@
+{% extends "productos/encabezado.html" %}
+
+{% block content %}
+<h1>Productos disponibles</h1>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    {% for producto in productos %}
+        <div style="border:1px solid #ccc; padding:15px; width:250px; text-align:center;">
+            {% if producto.foto %}
+                <img src="{{ producto.foto.url }}" alt="{{ producto.nombre }}" style="max-width:200px; height:auto;">
+            {% endif %}
+            <h3>{{ producto.nombre }}</h3>
+            <p>{{ producto.descripcion }}</p>
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }}</p>
+            <a href="{% url 'detalle_producto' producto.id %}">
+            <button style="margin-top:10px; background:#007bff; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">
+                Ver más
+            </button>
+            </a>
+            <a href="{% url 'agregar_al_carrito' producto.id %}">
+            <button style="margin-top:10px; background:#0b961d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">
+            Agregar al carrito</button>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

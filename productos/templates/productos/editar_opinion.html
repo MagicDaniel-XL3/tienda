@@ -1,0 +1,17 @@
+{% extends "productos/encabezado.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background: #f9f9f9;">
+    <h2>Editar opinión</h2>
+    <p><strong>Producto:</strong> {{ opinion.producto.nombre }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div style="margin-top: 15px;">
+            <button type="submit" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px;">Guardar cambios</button>
+            <a href="{% url 'detalle_producto' opinion.producto.id %}" style="padding: 10px 20px; background: #dc3545; color: white; border-radius: 5px; text-decoration: none;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

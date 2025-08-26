@@ -1,0 +1,8 @@
+<h2>¿Seguro que quieres eliminar tu comentario?</h2>
+<p>"{{ opinion.comentario }}"</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Sí, eliminar</button>
+  <a href="{% url 'detalle_producto' opinion.producto.id %}">Cancelar</a>
+</form>

@@ -112,3 +112,31 @@ def detalle_producto(request, producto_id):
         "opiniones": opiniones,
         "form": form
     })
+
+# Editar opinión (sin login)
+def editar_opinion(request, opinion_id):
+    opinion = get_object_or_404(Opinion, id=opinion_id)
+
+    if request.method == "POST":
+        form = OpinionForm(request.POST, instance=opinion)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "¡Tu comentario fue editado con éxito!")
+            return redirect("detalle_producto", producto_id=opinion.producto.id)
+    else:
+        form = OpinionForm(instance=opinion)
+
+    return render(request, "productos/editar_opinion.html", {"form": form, "opinion": opinion})
+
+
+# Eliminar opinión (sin login)
+def eliminar_opinion(request, opinion_id):
+    opinion = get_object_or_404(Opinion, id=opinion_id)
+
+    if request.method == "POST":
+        producto_id = opinion.producto.id
+        opinion.delete()
+        messages.success(request, "Comentario eliminado correctamente.")
+        return redirect("detalle_producto", producto_id=producto_id)
+
+    return render(request, "productos/eliminar_opinion.html", {"opinion": opinion})
